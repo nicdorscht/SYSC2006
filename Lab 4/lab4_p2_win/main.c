@@ -20,7 +20,7 @@ int main(void){
 1. local
 2. no as they are defined in a local scope
 3. no, it affects the local variable
-4. variable1 is global, and i is local to main
-5. there is only one that is global
+4. two, the first i defined on line 8 is local to all of main, and the second is local to only the for loop
+5. there is only one that is in scope for the whole function
 6. no they are individually defined
 */
