@@ -117,11 +117,9 @@ float calc_gpa(const grade_t *gradesp, int numGrades) {
    float total = 0;
    float credits = 0;
 
-   for(int i = 0; i < numGrades; i++){
+   for(int i = 0; i < numGrades; i++, gradesp++){
       total += gradesp->gp * gradesp->weight;
       credits += gradesp->weight;
-
-      gradesp++;
    }
 	return total / credits;
 }
