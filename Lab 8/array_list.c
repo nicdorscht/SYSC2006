@@ -213,7 +213,7 @@ _Bool list_contains(const list_t *list, int target)
 
     for(int i = 0; i < list->size; i++){
         if(list->elems[i] == target){
-            return true;
+            return true ;
         }
     }
     return false;
