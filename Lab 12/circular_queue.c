@@ -27,7 +27,7 @@ queue_t *alloc_queue(void)
  * otherwise return false.
  * Parameter queue points to the queue.
  * Terminate (via assert) if queue is NULL.
- */ 
+ */
 _Bool queue_is_empty(const queue_t *queue)
 {
     assert(queue != NULL);
@@ -44,16 +44,17 @@ int queue_size(const queue_t *queue)
     return queue->size;
 }
 
-/* Print the contents of the specified queue to the console, 
+/* Print the contents of the specified queue to the console,
  * from front to rear: [value0, value1, value3, ...]
  * Parameter queue points to the queue.
  * Terminate (via assert) if queue is NULL.
  */
 void queue_print(const queue_t *queue)
 {
-    assert(queue!= NULL);
+    assert(queue != NULL);
 
-    if (queue_is_empty(queue)) {  // Handle an empty queue (no nodes).
+    if (queue_is_empty(queue))
+    { // Handle an empty queue (no nodes).
         printf("[]");
         return;
     }
@@ -63,12 +64,13 @@ void queue_print(const queue_t *queue)
     printf("[");
 
     /* Print all the elements in the queue, except for the one at the rear. */
-    for (current = queue->rear->next;  // queue->rear points to the tail node
-                                       // (the node at the rear of the queue).
-                                       // The tail node points to the head node
-                                       // (the node at the front of the queue).
-         current != queue->rear; 
-         current = current -> next) {
+    for (current = queue->rear->next; // queue->rear points to the tail node
+                                      // (the node at the rear of the queue).
+                                      // The tail node points to the head node
+                                      // (the node at the front of the queue).
+         current != queue->rear;
+         current = current->next)
+    {
         printf("%d, ", current->data);
     }
 
@@ -87,6 +89,23 @@ void queue_print(const queue_t *queue)
  */
 void enqueue(queue_t *queue, int value)
 {
+    assert(queue != NULL);
+    node_t *new_node = malloc(sizeof(node_t));
+    assert(new_node != NULL);
+    new_node->data = value;
+    new_node->next = NULL;
+
+    if (queue_is_empty(queue))
+    {
+        queue->rear = new_node;
+        new_node->next = new_node;
+        queue->size += 1;
+        return;
+    }
+
+    new_node->next = queue->rear->next;
+    queue->rear->next = new_node;
+    queue->rear = new_node;
 }
 
 /* Copy the value at the front of a queue to the variable pointed to by
@@ -97,8 +116,14 @@ void enqueue(queue_t *queue, int value)
  */
 _Bool front(const queue_t *queue, int *element)
 {
-    *element = -1;
-    return false;
+    assert(queue != NULL);
+
+    if(queue_is_empty(queue)){
+        return false;
+    }
+
+    *element = queue->rear->next->data;
+    return true;
 }
 
 /* Copy the value at the front of a queue to the variable pointed to by
@@ -109,6 +134,20 @@ _Bool front(const queue_t *queue, int *element)
  */
 _Bool dequeue(queue_t *queue, int *element)
 {
-    *element = -1;
-    return false;
+    assert(queue != NULL);
+
+    if(queue_is_empty(queue)){
+        return false;
+    }
+
+    if(queue_size(queue) == 1){
+        *element = queue->rear->data;
+        free(queue->rear);
+        queue->size = 0;
+        return true;
+    }
+
+    *element = 5;
+
+    return true;
 }
