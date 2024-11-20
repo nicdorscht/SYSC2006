@@ -106,6 +106,7 @@ void enqueue(queue_t *queue, int value)
     new_node->next = queue->rear->next;
     queue->rear->next = new_node;
     queue->rear = new_node;
+    queue->size += 1;
 }
 
 /* Copy the value at the front of a queue to the variable pointed to by
@@ -137,7 +138,7 @@ _Bool dequeue(queue_t *queue, int *element)
     assert(queue != NULL);
 
     if(queue_is_empty(queue)){
-        return false;
+        return true;
     }
 
     if(queue_size(queue) == 1){
@@ -147,7 +148,12 @@ _Bool dequeue(queue_t *queue, int *element)
         return true;
     }
 
-    *element = 5;
+    *element = queue->rear->next->data;
+
+    node_t *temp = queue->rear->next;
+    queue->rear->next = temp->next;
+    free(temp);
+    queue->size -= 1;
 
     return true;
 }
