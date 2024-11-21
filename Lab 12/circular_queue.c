@@ -138,7 +138,7 @@ _Bool dequeue(queue_t *queue, int *element)
     assert(queue != NULL);
 
     if(queue_is_empty(queue)){
-        return true;
+        return false;
     }
 
     if(queue_size(queue) == 1){
